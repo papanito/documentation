@@ -6,6 +6,9 @@ import CodeExample1View from "./parts/CodeExample1View";
 import styled from "styled-components";
 import {useWindowSize} from "../../hooks/useWindowSize";
 import Layout from '@theme/Layout';
+import Playground from "../../components/Playground";
+import {Agile} from "@agile-ts/core";
+import {useAgile} from "@agile-ts/react";
 
 const makeExample = (uri) => `<iframe
   src="https://codesandbox.io/embed/${uri}?fontsize=14&hidenavigation=0&theme=light&view=preview"
@@ -17,6 +20,29 @@ const makeExample = (uri) => `<iframe
 
 
 const firstStateExample = makeExample('agilets-first-state-f12cz');
+
+const tempCode = "const App = new Agile();\n" +
+    "const MY_FIRST_STATE = App.State(\"Hello World\");\n" +
+    "let helloWorldCount = 0;\n" +
+    "\n" +
+    "const RandomComponent = () => {\n" +
+    "    const myFirstState = useAgile(MY_FIRST_STATE);\n" +
+    "\n" +
+    "    return(\n" +
+    "        <div>\n" +
+    "            <p>{myFirstState}</p>\n" +
+    "            <button\n" +
+    "                onClick={() => {\n" +
+    "                    MY_FIRST_STATE.set(`Hello World ${++helloWorldCount}`)\n" +
+    "                }}\n" +
+    "            >\n" +
+    "                Update State\n" +
+    "            </button>\n" +
+    "        </div>\n" +
+    "    );\n" +
+    "}\n" +
+    "\n" +
+    "render(<RandomComponent/>);"
 
 const LandingPage: React.FC = () => {
     const windowSize = useWindowSize();
@@ -40,6 +66,9 @@ const LandingPage: React.FC = () => {
                     </CodeExampleContainer>
                 </div>
             }
+
+            <Playground scope={{Agile, useAgile}} code={tempCode}/>
+
             <div id="firstStateExample" dangerouslySetInnerHTML={{ __html: firstStateExample }} />
         </Layout>
     )
